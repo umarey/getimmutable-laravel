@@ -109,6 +109,36 @@ class AuditLogClient
     }
 
     /**
+     * List blockchain anchors for the workspace.
+     *
+     * @return array{data: array}
+     */
+    public function getAnchors(?int $limit = null): array
+    {
+        return $this->get('/api/v1/anchors', array_filter(['limit' => $limit]));
+    }
+
+    /**
+     * Get details of a specific anchor.
+     *
+     * @return array{data: array<string, mixed>}
+     */
+    public function getAnchor(string $id): array
+    {
+        return $this->get("/api/v1/anchors/{$id}");
+    }
+
+    /**
+     * Verify an anchor by recomputing the Merkle root.
+     *
+     * @return array{data: array{anchor_id: string, valid: bool, chain_valid: bool, events_count: int}}
+     */
+    public function verifyAnchor(string $id): array
+    {
+        return $this->get("/api/v1/anchors/{$id}/verify");
+    }
+
+    /**
      * @param  array<string, mixed>  $data
      * @return array<string, mixed>
      */
